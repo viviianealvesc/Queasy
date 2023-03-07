@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queasy</title>
+    <link rel="icon" type="image/png" href="img/favicon.jpg">
+    <link type="text/css" rel="stylesheet" href="style/auth.css"> 
+    <link rel="stylesheet" href="style/sweetalert2.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/sweetalert2.js"></script>
+
+    <!-- Favicons -->
+    <link rel="icon" href="./quick">
+
+</head>
+<body>
+    <div id="loading">Loading&#83;</div>
+    <div class="bg"></div>
+    
+    <div class="auth login">
+        <p class="title">Queasy</p>
+    <form action="process/login.php" method="POST" id="login">
+        <input type="text" name="email" class="field" placeholder="E-mail ou username" required />
+        <input type="password" name="password" class="field" placeholder="Password" required />
+        <button>Entrar</button>
+        <li class="list-styled-item">
+            <a class="list-styled-link" href="./index.html">Entrar</a>
+          </li>
+    </form>
+    <p class="toogle" onclick="$('.register').fadeIn()">Não tenho conta</p>
+
+    </div>
+
+    <div class="auth register">
+        <p class="title">Criar uma conta</p>
+    <form action="process/registration.php" method="POST" id="register">
+        <input type="text" name="username" minlength="5" maxlength="15" class="field" placeholder="username" required />
+        <input type="email" name="email" class="field" placeholder="E-mail" required />
+        <input type="password" name="password" minlength="8" class="field" placeholder="Password" required />
+        <input type="password" name="repPassword" minlength="8" class="field" placeholder="Repetir Password" required />
+        <button type="submit">Criar conta</button>
+
+    </form>
+
+    <p class="toogle" onclick="$('.register').fadeOut()">Já tenho conta</p>
+    </div>
+
+    <script>
+        $("#login").on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'post',
+                url: 'process/login.php',
+                data: $('#login').serialize(),
+                beforeSend: function () {
+                    $('loading').show();
+                },
+                complete: function () {
+                    $('loading').hide();
+                },
+                success: function (data) {
+                    location.href = './';
+                },
+                error: function (error) {
+                    Swal.fire({
+                        title: 'Oops!',
+                        text: error.statusText,
+                        icon: 'error',
+                        confirmButtonText: 'Tentar novamente'
+
+                    })
+                }       
+                
+            })
+            
+        });
+
+
+        $("#register").on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'post',
+                url: 'process/registration.php',
+                data: $('#register').serialize(),
+                beforeSend: function () {
+                    $('loading').show();
+                },
+                complete: function () {
+                    $('loading').hide();
+                },
+                success: function (data) {
+                    location.href = './';
+                },
+                error: function (error) {
+                    confirm("Algo deu errado");
+                }       
+                
+            })
+            
+        });
+    </script>
+</body>
+</html>
